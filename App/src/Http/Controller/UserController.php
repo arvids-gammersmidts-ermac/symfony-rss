@@ -163,7 +163,7 @@ class UserController extends Controller
      * @Route("/checkemail/", name="user_registration_email_check")
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function checkEmail(Request $request, SessionInterface $session, UserRepository $userRepository): JsonResponse
+    public function checkEmail(Request $request, UserRepository $userRepository): JsonResponse
     {
         // TODO to separate API controller
         $data = json_decode(

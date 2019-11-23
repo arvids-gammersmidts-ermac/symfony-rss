@@ -16,8 +16,13 @@
             <td>{{ app.user.userInfo.name }}</td>
         </tr>
     </table>
-    <div>
-        <a href="{{ path('user_logout') }}">Logout</a>
+    <div class="form-group">
+        <a  class="btn btn-outline-dark btn" href="{{ path('user_logout') }}">Logout</a>
     </div>
+    <ul>
+        {% for feedItem in feed %}
+            <li>{{ feedItem.title }}</li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}
