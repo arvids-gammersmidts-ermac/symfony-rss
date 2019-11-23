@@ -1,0 +1,68 @@
+<!doctype html>
+{% set current_route_name = app.request.get('_route') %}
+{% if form is defined %}
+    {#http://symfony.com/doc/current/form/form_customization.html#what-are-form-themes#}
+    {#https://github.com/symfony/symfony/tree/master/src/Symfony/Bridge/Twig/Resources/views/Form#}
+    {% form_theme form "bootstrap_4_layout.html.twig" %}
+{% endif %}
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SF4 {% block title %}{% endblock %}</title>
+
+    <link rel="shortcut icon" href="{{ asset('build/images/logo-symfony.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('build/images/logo-symfony.png') }}" />
+
+    <!-- Bootstrap CSS -->
+    {#<link rel="stylesheet" href="{{ asset('build/css/global.css') }}">#}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% block stylesheets %}{% endblock %}
+    <style>
+        .form-group {
+            margin-top: 5px;
+        }
+        .form-group label{
+            display: block;
+        }
+        .form-error-icon {
+            display: none;
+        }
+        .form-error-message, .flash-error{
+            color: red;
+            font-weight: bold;
+            display: block;
+        }
+        .flash-success{
+            color: green;
+            font-weight: bold;
+            display: block;
+        }
+        .text-muted {
+            display: block;
+            color: #6c757d !important;
+        }
+        .error {
+            border:2px solid red;
+        }
+        .error-message{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        {#{% include '/Block/menuGlobal.twig' %}#}
+    </header>
+    <main role="main" class="container">
+        {% block body %}{% endblock %}
+    </main>
+    <footer class="footer bg-bar">
+        {#{% include '/Block/footer.twig' %}#}
+    </footer>
+    {#<script src="{{ asset('build/js/global.js') }}"></script>#}
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

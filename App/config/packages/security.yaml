@@ -1,0 +1,52 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+#    providers:
+#        in_memory: { memory: ~ }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            simple_form:
+                authenticator: App\Security\Login
+                login_path: user_login
+                check_path: user_login
+                use_referer: true
+                # https://symfony.com/doc/current/security/csrf.html
+                csrf_token_generator: security.csrf.token_manager
+            logout:
+                path: user_logout
+                target: /
+            pattern:    ^/
+            provider: our_db_provider
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+#    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+    access_control:
+        - { path: user_login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: user_registration_email_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    encoders:
+        App\Domain\User\Entity\User:
+            algorithm: bcrypt
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+    providers:
+        user_provider:
+            id: App\Security\UserProvider
+        our_db_provider:
+            entity:
+                class: App\Domain\User\Entity\User
+                property: username

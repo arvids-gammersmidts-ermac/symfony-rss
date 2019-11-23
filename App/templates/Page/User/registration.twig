@@ -1,0 +1,104 @@
+{% extends '/Layout/base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Registration</h1>
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    <div class="form-group">
+        {{ form_label(form.password.first) }}
+        {{ form_widget(form.password.first) }}
+        <small id="passwordHelpBlock" class="form-text text-muted">
+            Your password must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more characters
+        </small>
+    </div>
+    {{ form_row(form.password.second) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.termsAccepted) }}
+    {#<input type="hidden" name="_target_path" value="/account" />#}
+
+    <div class="form-group">
+        <div id='recaptcha' class="g-recaptcha"
+             data-size="invisible"></div>
+        <button type="submit" id="user_submit" name="user[submit]" class="btn btn-outline-dark btn">Register</button>
+        <a href="{{ path('user_login') }}" class="btn btn-outline-info float-right">Login</a>
+    </div>
+
+    <script>
+        const emailCheckUrl = '{{ path('user_registration_email_check') }}';
+        const emailField = document.getElementById('register_email');
+        const errorMessage = createErrorMessageElement();
+
+        function createErrorMessageElement() {
+            const elem = document.createElement( 'div' );
+            elem.setAttribute("id", "emailExistingMessage");
+            elem.setAttribute("class", "error-message");
+            elem.textContent = 'Email already registered';
+            return elem;
+        }
+        function emailIsValid(email) {
+            const regExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return regExp.test(String(email).toLowerCase());
+        }
+        function setEmailErrorMessage() {
+            emailField.parentNode.insertBefore( errorMessage, emailField.nextSibling );
+        }
+        function removeEmailMessage() {
+            errorMessage.remove();
+        }
+        function setEmailError() {
+            emailField.classList.add('error');
+        }
+        function removeEmailValid() {
+            emailField.classList.remove('error');
+        }
+        function checkEmail() {
+            if (emailIsValid(emailField.value)) {
+                checkForExistingEmail();
+            } else {
+                setEmailError();
+            }
+        }
+        let checkForExistingEmail = async () => {
+            const response = await fetch(
+                emailCheckUrl,
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: emailField.value
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            const data = await response.json();
+            if (data.exists) {
+                setEmailError();
+                setEmailErrorMessage();
+            } else {
+                removeEmailValid();
+                removeEmailMessage();
+            }
+        };
+        let timeout = null;
+        emailField.onkeyup = function (e) {
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                checkEmail();
+            }, 500);
+        };
+    </script>
+    {% do form.submit.setRendered %}
+    {{ form_end(form) }}
+{% endblock %}
