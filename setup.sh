@@ -1,4 +1,7 @@
 #!/bin/sh
+cd app
+composer install
+cd..
 
 docker-compose up -d
 docker-compose exec php-fpm-app bash -c 'mkdir -p /var/www/.composer'

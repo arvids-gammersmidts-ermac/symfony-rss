@@ -18,6 +18,7 @@ sh ./setup.sh
 
 #### Run tests
 ```sh
+cd app
 vendor/bin/codecept run tests/
 ```
 
