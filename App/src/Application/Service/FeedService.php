@@ -22,7 +22,6 @@ class FeedService
 
     public function getFeed(FetchFeed $command): FeedDto
     {
-        // TODO depending on command call cached or new feed
         $feed = $this->feedProvider->obtain();
         $topTopics = $this->topicListGenerator->extractTopTopics($feed, $command->topicCount);
 

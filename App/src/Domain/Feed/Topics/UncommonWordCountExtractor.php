@@ -16,7 +16,7 @@ final class UncommonWordCountExtractor extends WordCountExtractor
         return $this->removeCommonWords($words);
     }
 
-    private function removeCommonWords(array $words)
+    private function removeCommonWords(array $words): array
     {
         return array_diff_key($words, array_flip($this->getCommonWords()));
     }

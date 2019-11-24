@@ -4,7 +4,7 @@ namespace App\Domain\Feed\Provider;
 
 final class TheRegister extends FeedProvider
 {
-    const FEED_URL = 'https://theregister.co.uk/software/headlines.atom'; // TODO maybe to config object
+    const FEED_URL = 'https://theregister.co.uk/software/headlines.atom';
 
     protected function getFeedUrl(): string
     {

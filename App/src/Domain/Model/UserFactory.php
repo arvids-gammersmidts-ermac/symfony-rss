@@ -6,6 +6,7 @@ use App\Application\Dto\UserRegistrationDto;
 use App\Domain\User\Entity\User;
 use App\Domain\User\Entity\UserInfo;
 use App\Infrastructure\UserRepository;
+use Assert\Assert;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFactory implements UserFactoryInterface
@@ -19,9 +20,10 @@ class UserFactory implements UserFactoryInterface
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function create(UserRegistrationDto $registrationDto, User $creator = null): User
+    public function create(UserRegistrationDto $registrationDto): User
     {
-        // TODO improve add assertion
+        Assert::that($registrationDto->email)->email();
+        Assert::that($registrationDto->password)->string();
 
         $user = new User();
         $user->setUsername(Email::fromString($registrationDto->email));
@@ -29,15 +31,17 @@ class UserFactory implements UserFactoryInterface
         $user->setPassword(
             $this->passwordEncoder->encodePassword($user, $user->getPlainPassword())
         );
+        $user->setUserInfo($this->createUserInfo($registrationDto, $user));
 
+        return $user;
+    }
+
+    private function createUserInfo(UserRegistrationDto $registrationDto, User $user): UserInfo
+    {
         $userInfo = new UserInfo();
         $userInfo->setUser($user);
         $userInfo->setName($registrationDto->name);
 
-        $user->setUserInfo($userInfo);
-
-        // TODO CC to separate functions
-
-        return $user;
+        return $userInfo;
     }
 }
