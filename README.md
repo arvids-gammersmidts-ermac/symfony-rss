@@ -11,10 +11,15 @@ sh ./setup.sh
 #### Run the project
 - Open this address on your browser:
     - [http://localhost:8010/](http://localhost:8011/)
-- PhpMyAdmin, You can see the Database:
+- Database:
     - [http://localhost:8001/](http://localhost:8001/)
     - username: **docker**
     - password: **docker**
+
+#### Run tests
+```sh
+vendor/bin/codecept run tests/
+```
 
 #### Stop the project
 ```sh
