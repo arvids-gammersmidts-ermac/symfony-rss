@@ -25,7 +25,6 @@ class UncommonWordCountExtractorTest extends \Codeception\Test\Unit
                     'regular' => 1,
                     'testing' => 2,
                     'title' => 2,
-                    'is' => 1,
                 ]
             ],
             'same_word_on_repeat' => [

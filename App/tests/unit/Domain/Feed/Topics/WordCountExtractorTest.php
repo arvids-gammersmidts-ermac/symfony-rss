@@ -26,10 +26,6 @@ class WordCountExtractorTest extends \Codeception\Test\Unit
                     'regular' => 1,
                     'testing' => 2,
                     'title' => 2,
-                    'or' => 1,
-                    'is' => 1,
-                    'it' => 1,
-                    'a' => 1,
                 ]
             ],
             'same_word_on_repeat' => [
@@ -42,6 +38,12 @@ class WordCountExtractorTest extends \Codeception\Test\Unit
                 'Same.SAME?sAME_SAme',
                 [
                     'same' => 4,
+                ]
+            ],
+            'short_words_are_skipped' => [
+                '12 GG i is p? Rey',
+                [
+                    'rey' => 1,
                 ]
             ],
             'empty_text' => [
