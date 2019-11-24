@@ -28,7 +28,6 @@ class FeedController extends Controller
     public function feed(Request $request, FeedService $feedService): JsonResponse
     {
         $fetchFeed = new FetchFeed();
-
         $feed = $feedService->getFeed($fetchFeed);
 
         return new JsonResponse(

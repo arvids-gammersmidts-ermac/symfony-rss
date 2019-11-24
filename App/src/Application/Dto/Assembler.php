@@ -6,10 +6,6 @@ use App\Domain\User\Entity\User;
 
 class Assembler
 {
-    public function __construct()
-    {
-    }
-
     public function toUserDto(User $user): UserDto
     {
         $dto = new UserDto();

@@ -17,10 +17,15 @@
         </tr>
     </table>
     <div class="form-group">
-        <a  class="btn btn-outline-dark btn" href="{{ path('user_logout') }}">Logout</a>
+        <a  class="btn btn-outline-dark" href="{{ path('user_logout') }}">Logout</a>
     </div>
+    <ul class="topics">
+        {% for topic in news.topics %}
+            <li class="btn btn-outline-dark">{{ topic.name }}({{ topic.count }})</li>
+        {% endfor %}
+    </ul>
     <ul>
-        {% for feedItem in feed %}
+        {% for feedItem in news.feed %}
             <li>{{ feedItem.title }}</li>
         {% endfor %}
     </ul>

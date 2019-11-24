@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends Controller
 {
+    const TOPIC_COUNT = 10;
     /**
      * @Route("/", name="homepage")
      */
@@ -19,11 +20,12 @@ class IndexController extends Controller
         }
 
         $fetchFeed = new FetchFeed();
+        $fetchFeed->topicCount = self::TOPIC_COUNT;
         $feed = $feedService->getFeed($fetchFeed);
 
         return $this->render('Page/Index/index.twig', [
             'user_info' => 'IndexController',
-            'feed' => $feed
+            'news' => $feed
         ]);
     }
 }

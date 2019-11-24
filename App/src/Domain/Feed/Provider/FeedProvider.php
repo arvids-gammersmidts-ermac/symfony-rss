@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Feed\Provider;
 
 use FeedIo\FeedInterface;
 use FeedIo\FeedIo;
